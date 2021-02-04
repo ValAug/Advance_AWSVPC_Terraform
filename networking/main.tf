@@ -14,3 +14,10 @@ resource "aws_vpc" "exos_vpc" {
     Name = join(" - ", ["exos_vpc", random_string.vpc_rs[count.index].result])
   }
 }
+
+resource "aws_subnet" "exos_pub_sub" {
+  count      = var.pub_sub_count
+  vpc_id     = aws_vpc.exos_vpc[count.index].id
+  cidr_block = var.public_cidrs[count.index]
+
+}
