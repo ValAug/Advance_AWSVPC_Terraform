@@ -16,13 +16,25 @@ resource "aws_vpc" "exos_vpc" {
 }
 
 resource "aws_subnet" "exos_pub_sub" {
-  count      = var.vpc_count
-  vpc_id     = aws_vpc.exos_vpc[count.index].id
-  cidr_block = var.public_cidrs[count.index]
+  count                   = var.vpc_count
+  vpc_id                  = aws_vpc.exos_vpc[count.index].id
+  cidr_block              = var.public_cidrs[count.index]
   map_public_ip_on_launch = true
 
   tags = {
     "Name" = "exos_pub_sub - ${count.index + 1}"
+  }
+
+}
+
+resource "aws_subnet" "exos_pri_sub" {
+  count                   = var.vpc_count
+  vpc_id                  = aws_vpc.exos_vpc[count.index].id
+  cidr_block              = var.private_cidrs[count.index]
+  map_public_ip_on_launch = false
+
+  tags = {
+    "Name" = "exos_pri_sub - ${count.index + 1}"
   }
 
 }

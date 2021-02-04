@@ -18,10 +18,6 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-# variable "pub_sub_count" {
-#   description = "number of public subnet"
-#   type        = number
-# }
 
 variable "public_cidrs" {
   type        = list(any)
@@ -43,5 +39,28 @@ variable "public_cidrs" {
     "10.0.14.0/24",
     "10.0.15.0/24",
     "10.0.16.0/24"
+  ]
+}
+
+variable "private_cidrs" {
+  type        = list(any)
+  description = "Available cidr blocks for private subnets"
+  default = [
+    "10.0.101.0/24",
+    "10.0.102.0/24",
+    "10.0.103.0/24",
+    "10.0.104.0/24",
+    "10.0.105.0/24",
+    "10.0.106.0/24",
+    "10.0.107.0/24",
+    "10.0.108.0/24",
+    "10.0.109.0/24",
+    "10.0.110.0/24",
+    "10.0.111.0/24",
+    "10.0.112.0/24",
+    "10.0.113.0/24",
+    "10.0.114.0/24",
+    "10.0.115.0/24",
+    "10.0.116.0/24"
   ]
 }
