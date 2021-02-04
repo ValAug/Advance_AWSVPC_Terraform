@@ -18,10 +18,10 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-variable "pub_sub_count" {
-  description = "number of public subnet"
-  type        = number
-}
+# variable "pub_sub_count" {
+#   description = "number of public subnet"
+#   type        = number
+# }
 
 variable "public_cidrs" {
   type        = list(any)
