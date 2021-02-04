@@ -64,3 +64,15 @@ variable "private_cidrs" {
     "10.0.116.0/24"
   ]
 }
+
+variable "ami" {
+  default = "ami-2757f631"
+}
+
+variable "type" {
+  default = "t2.micro"
+}
+
+variable "instaces_per_subnet" {
+  type = number
+}

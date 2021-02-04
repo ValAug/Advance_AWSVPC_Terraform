@@ -38,3 +38,23 @@ resource "aws_subnet" "exos_pri_sub" {
   }
 
 }
+
+resource "aws_instance" "web" {
+  count = var.instaces_per_subnet
+  ami           = var.ami
+  instance_type = var.type
+  subnet_id     = aws_subnet.exos_pub_sub.*.id[count.index]
+
+#   user_data = <<-EOF
+#     #!/bin/bash
+#     sudo yum update -y
+#     sudo yum install httpd -y
+#     sudo systemctl enable httpd
+#     sudo systemctl start httpd
+#     echo "<html><body><div>Hello, world!</div></body></html>" > /var/www/html/index.html
+#     EOF
+
+  tags = {
+    Name = "My_web"
+  }
+}
