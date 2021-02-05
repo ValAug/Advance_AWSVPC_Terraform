@@ -18,7 +18,7 @@ resource "aws_vpc" "exos_vpc" {
 }
 
 resource "aws_subnet" "exos_pub_sub" {
-  count                   = var.vpc_count
+  count                   = var.pub_sub_count
   vpc_id                  = aws_vpc.exos_vpc[count.index].id
   cidr_block              = var.public_cidrs[count.index]
   map_public_ip_on_launch = false
@@ -42,9 +42,9 @@ resource "aws_subnet" "exos_pri_sub" {
 }
 
 resource "aws_route_table" "exos_public_rt" {
-  count = var.vpc_count
+  count  = var.vpc_count
   vpc_id = aws_vpc.exos_vpc[count.index].id
-  
+
 
   tags = {
     "Name" = "exos_rt_pub"
@@ -52,19 +52,19 @@ resource "aws_route_table" "exos_public_rt" {
 
 }
 resource "aws_route" "exos_default_rt" {
-  count = var.vpc_count
+  count                  = var.vpc_count
   route_table_id         = aws_route_table.exos_public_rt[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.exos_gw[count.index].id
-  
+
 }
 
 resource "aws_route_table_association" "exos_pub_access" {
-  count = var.vpc_count  
+  count          = var.pub_sub_count
   route_table_id = aws_route_table.exos_public_rt[count.index].id
-  subnet_id                   = aws_subnet.exos_pub_sub.*.id[count.index]
-  
-  
+  subnet_id      = aws_subnet.exos_pub_sub.*.id[count.index]
+
+
 }
 resource "aws_instance" "exos_web" {
   count                       = var.instaces_per_subnet
@@ -72,9 +72,9 @@ resource "aws_instance" "exos_web" {
   instance_type               = var.type
   subnet_id                   = aws_subnet.exos_pub_sub.*.id[count.index]
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.exos_web_sg[count.index].id]
-  depends_on = [aws_internet_gateway.exos_gw]
- 
+  vpc_security_group_ids      = [aws_security_group.exos_web_sg[count.index].id]
+  depends_on                  = [aws_internet_gateway.exos_gw]
+
 
   user_data = <<-EOF
         #!/bin/bash
@@ -97,7 +97,7 @@ resource "aws_instance" "exos_web" {
 }
 
 resource "aws_security_group" "exos_web_sg" {
-  count = var.vpc_count
+  count       = var.instaces_per_subnet
   name        = "web_sg"
   description = "Security group for pub  access"
   vpc_id      = aws_vpc.exos_vpc[count.index].id
@@ -107,7 +107,7 @@ resource "aws_security_group" "exos_web_sg" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    
+
   }
 
   egress {
@@ -119,7 +119,7 @@ resource "aws_security_group" "exos_web_sg" {
 }
 
 resource "aws_internet_gateway" "exos_gw" {
-  count = var.vpc_count
+  count  = var.vpc_count
   vpc_id = aws_vpc.exos_vpc[count.index].id
 
   tags = {

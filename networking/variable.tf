@@ -12,6 +12,11 @@ variable "vpc_count" {
 
 }
 
+variable "pub_sub_count" {
+  description = "Numbers of pub subnet per vpc to be deploy"
+  type        = number
+}
+
 variable "vpc_cidr" {
   description = "cidr for VPC"
   type        = string
