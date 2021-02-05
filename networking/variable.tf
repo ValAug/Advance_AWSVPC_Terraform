@@ -76,3 +76,4 @@ variable "type" {
 variable "instaces_per_subnet" {
   type = number
 }
+

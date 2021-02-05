@@ -10,7 +10,7 @@ output "pri_subnet_names" {
 }
 
 output "pub_sub_ids" {
-    value = [for i in aws_instance.web[*] : join(":", [i.tags["Name"], i.subnet_id])]
+  value = [for i in aws_instance.web[*] : join(":", [i.tags["Name"], i.subnet_id])]
 }
 
 output "type-public_dns" {

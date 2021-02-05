@@ -8,8 +8,8 @@ resource "random_string" "vpc_rs" {
 }
 
 resource "aws_vpc" "exos_vpc" {
-  count      = var.vpc_count
-  cidr_block = var.vpc_cidr
+  count                = var.vpc_count
+  cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
   tags = {
@@ -42,22 +42,52 @@ resource "aws_subnet" "exos_pri_sub" {
 }
 
 resource "aws_instance" "web" {
-  count = var.instaces_per_subnet
-  ami           = var.ami
-  instance_type = var.type
-  subnet_id     = aws_subnet.exos_pub_sub.*.id[count.index]
+  count                       = var.instaces_per_subnet
+  ami                         = var.ami
+  instance_type               = var.type
+  subnet_id                   = aws_subnet.exos_pub_sub.*.id[count.index]
   associate_public_ip_address = true
+  vpc_security_group_ids = [aws_security_group.web_sg[count.index].id]
+ 
 
   user_data = <<-EOF
-    !/bin/bash
-    sudo yum update -y
-    sudo yum install httpd -y
-    sudo systemctl enable httpd
-    sudo systemctl start httpd
-    echo "<html><body><div>Hello, world!</div></body></html>" > /var/www/html/index.html
+        #!/bin/bash
+        yum update -y
+        amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
+        yum install -y httpd mariadb-server
+        systemctl start httpd
+        systemctl enable httpd
+        usermod -a -G apache ec2-user
+        chown -R ec2-user:apache /var/www
+        chmod 2775 /var/www
+        find /var/www -type d -exec chmod 2775 {} \;
+        find /var/www -type f -exec chmod 0664 {} \;
+        echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
     EOF
 
   tags = {
     Name = "My_web"
+  }
+}
+
+resource "aws_security_group" "web_sg" {
+  count = var.vpc_count
+  name        = "web_sg"
+  description = "Security group for pub  access"
+  vpc_id      = aws_vpc.exos_vpc[count.index].id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
