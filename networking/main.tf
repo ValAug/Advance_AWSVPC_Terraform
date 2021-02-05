@@ -55,7 +55,7 @@ resource "aws_route" "exos_default_rt" {
   count = var.vpc_count
   route_table_id         = aws_route_table.exos_public_rt[count.index].id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.gw[count.index].id
+  gateway_id             = aws_internet_gateway.exos_gw[count.index].id
   
 }
 
@@ -66,14 +66,14 @@ resource "aws_route_table_association" "exos_pub_access" {
   
   
 }
-resource "aws_instance" "web" {
+resource "aws_instance" "exos_web" {
   count                       = var.instaces_per_subnet
   ami                         = var.ami
   instance_type               = var.type
   subnet_id                   = aws_subnet.exos_pub_sub.*.id[count.index]
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.web_sg[count.index].id]
-  depends_on = [aws_internet_gateway.gw]
+  vpc_security_group_ids = [aws_security_group.exos_web_sg[count.index].id]
+  depends_on = [aws_internet_gateway.exos_gw]
  
 
   user_data = <<-EOF
@@ -96,7 +96,7 @@ resource "aws_instance" "web" {
   }
 }
 
-resource "aws_security_group" "web_sg" {
+resource "aws_security_group" "exos_web_sg" {
   count = var.vpc_count
   name        = "web_sg"
   description = "Security group for pub  access"
@@ -118,7 +118,7 @@ resource "aws_security_group" "web_sg" {
   }
 }
 
-resource "aws_internet_gateway" "gw" {
+resource "aws_internet_gateway" "exos_gw" {
   count = var.vpc_count
   vpc_id = aws_vpc.exos_vpc[count.index].id
 
