@@ -41,6 +41,22 @@ resource "aws_subnet" "exos_pri_sub" {
 
 }
 
+resource "aws_route_table" "exos_public_rt" {
+  count = var.vpc_count
+  vpc_id = aws_vpc.exos_vpc[count.index].id
+
+  tags = {
+    "Name" = "exos_rt_pub"
+  }
+
+}
+resource "aws_route" "exos_default_rt" {
+  count = var.vpc_count
+  route_table_id         = aws_route_table.exos_public_rt[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.gw[count.index].id
+
+}
 resource "aws_instance" "web" {
   count                       = var.instaces_per_subnet
   ami                         = var.ami
@@ -48,21 +64,16 @@ resource "aws_instance" "web" {
   subnet_id                   = aws_subnet.exos_pub_sub.*.id[count.index]
   associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.web_sg[count.index].id]
+  depends_on = [aws_internet_gateway.gw]
  
 
   user_data = <<-EOF
         #!/bin/bash
-        yum update -y
-        amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.2
-        yum install -y httpd mariadb-server
-        systemctl start httpd
-        systemctl enable httpd
-        usermod -a -G apache ec2-user
-        chown -R ec2-user:apache /var/www
-        chmod 2775 /var/www
-        find /var/www -type d -exec chmod 2775 {} \;
-        find /var/www -type f -exec chmod 0664 {} \;
-        echo "<?php phpinfo(); ?>" > /var/www/html/phpinfo.php
+        sudo yum update -y
+        sudo install -y httpd.x86_64
+        sudo systemctl start httpd.service
+        sudo systemctl enable httpd.service
+        sudo echo "Hello Terraform $(hostname -f)" > /var/www/html/index.html
     EOF
 
   tags = {
@@ -89,5 +100,14 @@ resource "aws_security_group" "web_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_internet_gateway" "gw" {
+  count = var.vpc_count
+  vpc_id = aws_vpc.exos_vpc[count.index].id
+
+  tags = {
+    Name = "exos_vpc_internet_gateway"
   }
 }
