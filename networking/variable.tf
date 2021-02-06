@@ -82,4 +82,3 @@ variable "instaces_per_subnet" {
   type = number
 }
 
-# variable "security_groups" {}

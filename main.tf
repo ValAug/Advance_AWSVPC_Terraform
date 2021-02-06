@@ -2,8 +2,7 @@
 
 module "networking" {
   source    = "./networking"
-  vpc_count = 1
-  pub_sub_count = 1
+  vpc_count = 2
+  pub_sub_count = 2
   instaces_per_subnet = 1
-  
 }

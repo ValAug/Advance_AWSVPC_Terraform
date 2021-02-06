@@ -13,7 +13,12 @@ output "pub_sub_ids" {
   value = [for i in aws_instance.exos_web[*] : join(":", [i.tags["Name"], i.subnet_id])]
 }
 
-output "type-public_dns" {
+output "public_dns" {
   description = "public ip of EC2 instances"
   value       = [aws_instance.exos_web[*].public_dns]
+}
+
+output "public_ip" {
+  description = "public ip of EC2 instances"
+  value       = [aws_instance.exos_web[*].public_ip]
 }
