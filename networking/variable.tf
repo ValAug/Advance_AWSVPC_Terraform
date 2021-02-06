@@ -71,7 +71,7 @@ variable "private_cidrs" {
 }
 
 variable "ami" {
-  default = "ami-2757f631"
+  default = "ami-047a51fa27710816e"
 }
 
 variable "type" {
@@ -82,3 +82,4 @@ variable "instaces_per_subnet" {
   type = number
 }
 
+# variable "security_groups" {}
