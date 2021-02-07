@@ -8,7 +8,7 @@ Build an AWS VPC as code with Terraform
 ![Terraform](https://img.shields.io/badge/-Terraform-000000?style=flat&logo=Terraform)
 
 # Purpose
-Shows how to use the AWS with Terraform to accomplish the following tasks:
+Shows how to use AWS with Terraform to accomplish the following tasks:
 
 * Create one or multiple full VPC's with a few configurations
 * Create one or multiple ec2's of any type for a webservice hosting
