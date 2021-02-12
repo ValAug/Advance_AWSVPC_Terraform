@@ -34,6 +34,7 @@ Shows how to use AWS with Terraform to accomplish the following tasks:
 # Running the code
 * terraform init
 * terraform plan
+* terraform validate
 * terraform apply
 * Alternate command : terraform apply -auto-approve
 * terraform destroy
