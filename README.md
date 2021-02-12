@@ -8,7 +8,7 @@ Build an AWS VPC as code with Terraform
 ![Terraform](https://img.shields.io/badge/-Terraform-000000?style=flat&logo=Terraform)
 
 # Diagram
-![alt text](https://github.com/ValAug/AWS_Security/blob/master/vpc_diagram.png)
+![alt text](https://github.com/ValAug/Advance_AWSVPC_Terraform/blob/master/vpc_diagram.png)
 
 # Purpose
 Shows how to use AWS with Terraform to accomplish the following tasks:
