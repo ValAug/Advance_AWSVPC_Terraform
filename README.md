@@ -8,7 +8,7 @@ Build an AWS VPC as code with Terraform
 ![Terraform](https://img.shields.io/badge/-Terraform-000000?style=flat&logo=Terraform)
 
 # AWS VPC architecture diagram with Public and Private Subnets
-![alt text](https://github.com/ValAug/Advance_AWSVPC_Terraform/blob/master/vpc_diagram.png)
+![alt text](https://github.com/ValAug/Advance_AWSVPC_Terraform/blob/master/vpc_diagram_v1.png)
 
 # Purpose
 Shows how to use AWS with Terraform to accomplish the following tasks:
