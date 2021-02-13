@@ -36,7 +36,9 @@ Shows how to use AWS with Terraform to accomplish the following tasks:
 * Running this code might result in charges to your AWS account
 * This project will be adding more services
 
-# Running the code
+# How to run this code
+* Clone this repo
+* cd to Advance_AWSVPC_Terraform folder
 * terraform init
 * terraform plan
 * terraform validate
