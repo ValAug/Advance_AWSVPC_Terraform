@@ -27,13 +27,13 @@ Shows how to use AWS with Terraform to accomplish the following tasks:
 * You must have Terraform installed
 
 # Cautions
-* As an AWS best practice, grant this code least privilege, or only the 
+* As an AWS best practice, grant this project least privilege, or only the 
   permissions required to perform a task. For more information, see 
   [Grant Least Privilege](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege) 
   in the *AWS Identity and Access Management 
-  User Guide*.
-* This code has been tested in us-east-1 AWS Regions only. However it should work in any other region. 
-* Running this code might result in charges to your AWS account.
+  User Guide*
+* This code has been tested in us-east-1 AWS Regions only. However it should work in any other region
+* Running this code might result in charges to your AWS account
 * This project will be adding more services
 
 # Running the code
