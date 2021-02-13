@@ -15,6 +15,11 @@ Shows how to use AWS with Terraform to accomplish the following tasks:
 
 * Create one or multiple full VPC's with a few configurations
 * Create one or multiple ec2's of any type for a webservice hosting
+* Create Key pairs
+* Create Security group
+* Create Route table and Route table association
+* Create multiple public and private subnets
+* Create Internet gateway
 
 # Prerequisites
 * You must have an AWS account, and have your default credentials and AWS Region
