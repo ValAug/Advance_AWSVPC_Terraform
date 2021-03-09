@@ -1,3 +1,8 @@
+<!-- retro visitor counter -->
+<p align="center"> 
+  <img src="https://profile-counter.glitch.me/ValAug/count.svg" />
+</p>
+
 # Advance_AWSVPC_with_Terraform
 Build an AWS VPC as code with Terraform
 
